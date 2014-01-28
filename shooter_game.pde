@@ -1,10 +1,11 @@
 Shooter s;
-
+PVector shakeScreen;
 ArrayList<Particle> particles = new ArrayList<Particle>();
 boolean[] keys = new boolean[4];
 void setup()
 {
   size(800, 700);
+  shakeScreen = new PVector(0, 0);
   s = new Shooter();
 
   particles.add(new Particle());
@@ -15,22 +16,18 @@ void draw()
   //background(255);
   if (mousePressed && mouseButton == LEFT)
   {
-    fill(0, 25);
+    fill(0, 10);
     rect(0, 0, width, height);
   }
   else
   {
-    fill(255, 25);
+    fill(255, 10);
     rect(0, 0, width, height);
   }
   s.display();
   s.friction();
   s.move();
   particles.add(new Particle());
-  if (mouseButton == RIGHT)
-  {
-    particles.clear();
-  }
   for (int i = particles.size()-1; i > 0; i --)
   {
     Particle p = particles.get(i);
@@ -60,6 +57,11 @@ void keyPressed()
   {
     keys[3] = true;
   }
+//  if(key == ' ')
+//  {
+//    shakeScreen = PVector.random2D();
+//    shakeScreen.set(-shakeScreen.x,-shakeScreen.y);
+//  }
 }
 void keyReleased()
 {

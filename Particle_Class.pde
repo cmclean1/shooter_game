@@ -12,6 +12,7 @@ class Particle
   }
   void display()
   {
+    loc.add(shakeScreen);
     colorMode(HSB, 25, 100, 100);
     fill(abs(sqrt(sq(vel.x)+sq(vel.y))), 100, 100);
     noStroke();
