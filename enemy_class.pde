@@ -55,4 +55,32 @@ class Enemy
     return false;
   }
 }
+class blasterEnemy extends Enemy
+{
+
+  Timer bulletTimer;
+  int bulletnum;
+  ArrayList<enemyBullet> bullets = new ArrayList<enemyBullet>();
+
+  blasterEnemy()
+  {
+    bulletnum = int(random(1, 5));
+    bulletTimer = new Timer(2000);
+  }
+  void aim()
+  {
+  }
+  void shoot()
+  {
+    if (bulletTimer.go())
+    {
+      bullets.add(new enemyBullet(loc.x,loc.y));
+    }
+    for (int i = bullets.size()-1; i > 0; i --) {
+      enemyBullet b = bullets.get(i);
+      b.move();
+      b.display();
+    }
+  }
+}
 
