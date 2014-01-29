@@ -1,6 +1,7 @@
 Shooter s;
 blasterEnemy e = new blasterEnemy();
 ArrayList<Enemy> enemies = new ArrayList<Enemy>();
+ArrayList<blasterEnemy> blaster = new ArrayList<blasterEnemy>();
 PVector shakeScreen;
 ArrayList<Particle> particles = new ArrayList<Particle>();
 boolean[] keys = new boolean[4];
@@ -14,7 +15,8 @@ void setup()
   s = new Shooter();
   enemyTimer = new Timer(5000);
   particles.add(new Particle());
-  enemies.add(new blasterEnemy());
+  enemies.add(new Enemy());
+  blaster.add(new blasterEnemy());
 }
 void draw()
 {
@@ -33,35 +35,24 @@ void draw()
     rect(0, 0, width, height);
     dark = false;
   }
-  e.move();
-  e.display();
-  e.shoot();
   s.display();
   s.friction();
   s.move();
   if (enemyTimer.go())
   {
-    int i = int(random(2));
-    if (i == 0)
-    {
-      enemies.add(new blasterEnemy());
-    }
-    else
-    {
-      enemies.add(new blasterEnemy());
-    }
-    timer+=5000;
+    blaster.add(new blasterEnemy());
+    enemies.add(new Enemy());
   }
   for (int i = enemies.size()-1; i > 0; i --) {
     Enemy e = enemies.get(i);
     e.display();
     e.move();
-
-    if (e == new blasterEnemy())
-    {
-                print("S");
-
-    }
+  }
+  for (int i = blaster.size()-1; i > 0; i --) {
+    blasterEnemy e = blaster.get(i);
+    e.display();
+    e.move();
+    e.shoot();
   }
   particles.add(new Particle());
   for (int i = particles.size()-1; i > 0; i --)
@@ -100,24 +91,24 @@ void draw()
   }
   for (int i = particles.size()-1; i > 0; i --)
   {
-    for (int j = enemies.size()-1; j > 0; j --)
+    for (int j = blaster.size()-1; j > 0; j --)
     {
-      if (enemies.get(j).checkParticle(particles.get(i)) && !enemies.get(j).dead)
+      if (blaster.get(j).checkParticle(particles.get(i)) && !blaster.get(j).dead)
       {
-        enemies.get(j).hit = true;
+        blaster.get(j).hit = true;
         particles.remove(i);
 
-        enemies.get(j).life--;
-        if (enemies.get(j).life <= 0)
+        blaster.get(j).life--;
+        if (blaster.get(j).life <= 0)
         {
-          enemies.get(j).e = new Explosion(enemies.get(j).loc.x, enemies.get(j).loc.y);
-          enemies.get(j).dead = true;
+          blaster.get(j).e = new Explosion(blaster.get(j).loc.x, blaster.get(j).loc.y);
+          blaster.get(j).dead = true;
         }
         return;
       }
       else
       {
-        enemies.get(j).hit = false;
+        blaster.get(j).hit = false;
       }
     }
   }

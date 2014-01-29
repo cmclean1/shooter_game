@@ -3,9 +3,9 @@ class enemyBullet
   PVector loc;
   PVector vel;
   int d;
-  enemyBullet(float x, float y)
+  enemyBullet(float x, float y, float velx, float vely)
   {
-    vel = PVector.random2D();
+    vel = new PVector(velx,vely);
     loc = new PVector(x, y);
   }
   void display()

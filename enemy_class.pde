@@ -59,7 +59,7 @@ class blasterEnemy extends Enemy
 {
 
   Timer bulletTimer;
-  int bulletnum;
+  int bulletnum = 5;
   ArrayList<enemyBullet> bullets = new ArrayList<enemyBullet>();
 
   blasterEnemy()
@@ -72,14 +72,20 @@ class blasterEnemy extends Enemy
   }
   void shoot()
   {
-    if (bulletTimer.go())
+    if (!dead)
     {
-      bullets.add(new enemyBullet(loc.x,loc.y));
-    }
-    for (int i = bullets.size()-1; i > 0; i --) {
-      enemyBullet b = bullets.get(i);
-      b.move();
-      b.display();
+      if (bulletTimer.go())
+      {
+        for (int i = 0; i < bulletnum; i++)
+        {
+          bullets.add(new enemyBullet(loc.x, loc.y, cos(360/(i+1)),sin(360/(i+1))));
+        }
+      }
+      for (int i = bullets.size()-1; i > 0; i --) {
+        enemyBullet b = bullets.get(i);
+        b.move();
+        b.display();
+      }
     }
   }
 }
