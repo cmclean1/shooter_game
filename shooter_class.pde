@@ -27,7 +27,7 @@ class Shooter
       }
     }
     colorMode(RGB, 255, 255, 255);
-    if (mousePressed && mouseButton == LEFT)
+    if (dark)
     {
       fill(255);
     }

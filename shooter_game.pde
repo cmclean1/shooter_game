@@ -1,7 +1,11 @@
 Shooter s;
+Enemy e;
+ArrayList<Enemy> enemies = new ArrayList<Enemy>();
 PVector shakeScreen;
 ArrayList<Particle> particles = new ArrayList<Particle>();
 boolean[] keys = new boolean[4];
+int timer;
+boolean dark;
 void setup()
 {
   size(800, 700);
@@ -9,33 +13,71 @@ void setup()
   s = new Shooter();
 
   particles.add(new Particle());
+  enemies.add(new Enemy());
 }
 void draw()
 {
   colorMode(RGB, 255, 255, 255);
+  rectMode(CORNER);
   //background(255);
   if (mousePressed && mouseButton == LEFT)
   {
     fill(0, 10);
     rect(0, 0, width, height);
+    dark = true;
   }
   else
   {
     fill(255, 10);
     rect(0, 0, width, height);
+    dark = false;
   }
   s.display();
   s.friction();
   s.move();
+  if (millis() > timer)
+  {
+    enemies.add(new Enemy());
+    timer+=5000;
+  }
+  for (int i = enemies.size()-1; i > 0; i --) {
+    Enemy e = enemies.get(i);
+    e.display();
+    e.move();
+  }
   particles.add(new Particle());
   for (int i = particles.size()-1; i > 0; i --)
   {
     Particle p = particles.get(i);
     p.display();
     p.move();
+
     if (p.loc.x > width || p.loc.x < 0 || p.loc.y > height || p.loc.y < 0)
     {
       particles.remove(i);
+    }
+  }
+  for (int i = particles.size()-1; i > 0; i --)
+  {
+    for (int j = enemies.size()-1; j > 0; j --)
+    {
+      if (enemies.get(j).checkParticle(particles.get(i)) && !enemies.get(j).dead)
+      {
+        enemies.get(j).hit = true;
+        particles.remove(i);
+
+        enemies.get(j).life--;
+        if (enemies.get(j).life <= 0)
+        {
+          enemies.get(j).e = new Explosion(enemies.get(j).loc.x, enemies.get(j).loc.y);
+          enemies.get(j).dead = true;
+        }
+        return;
+      }
+      else
+      {
+        enemies.get(j).hit = false;
+      }
     }
   }
 }
@@ -57,11 +99,11 @@ void keyPressed()
   {
     keys[3] = true;
   }
-//  if(key == ' ')
-//  {
-//    shakeScreen = PVector.random2D();
-//    shakeScreen.set(-shakeScreen.x,-shakeScreen.y);
-//  }
+  //  if(key == ' ')
+  //  {
+  //    shakeScreen = PVector.random2D();
+  //    shakeScreen.set(-shakeScreen.x,-shakeScreen.y);
+  //  }
 }
 void keyReleased()
 {
