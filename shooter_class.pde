@@ -13,6 +13,14 @@ class Shooter
     acc = new PVector(0, 0);
     d = 30;
   }
+  boolean checkParticle(enemyBullet b)
+  {
+    if (dist(b.loc.x, b.loc.y, loc.x, loc.y) < (d/2)+(b.d/2))
+    {
+      return true;
+    }
+    return false;
+  }
   void display()
   {
     loc.add(shakeScreen);

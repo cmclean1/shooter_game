@@ -46,6 +46,14 @@ class Enemy
       loc.add(vel);
     }
   }
+  boolean checkShooter(Shooter s)
+  {
+    if (dist(s.loc.x, s.loc.y, loc.x, loc.y) < (d/2)+(s.d/2))
+    {
+      return true;
+    }
+    return false;
+  }
   boolean checkParticle(Particle p)
   {
     if (dist(p.loc.x, p.loc.y, loc.x, loc.y) < (d/2)+(p.d/2))
@@ -59,12 +67,12 @@ class blasterEnemy extends Enemy
 {
 
   Timer bulletTimer;
-  int bulletnum = 5;
+  float bulletnum = 5;
   ArrayList<enemyBullet> bullets = new ArrayList<enemyBullet>();
 
   blasterEnemy()
   {
-    bulletnum = 5;
+    bulletnum =10;
     bulletTimer = new Timer(2000);
   }
   void aim()
@@ -76,9 +84,9 @@ class blasterEnemy extends Enemy
     {
       if (bulletTimer.go())
       {
-        for (int i = 0; i < bulletnum; i++)
+        for (float i = 0; i < bulletnum; i++)
         {
-          bullets.add(new enemyBullet(loc.x, loc.y, cos((2*PI)*(i/bulletnum)),sin((2*PI)*(i/bulletnum))));
+          bullets.add(new enemyBullet(loc.x, loc.y, cos((2*PI)*(i/bulletnum)), sin((2*PI)*(i/bulletnum))));
         }
       }
       for (int i = bullets.size()-1; i > 0; i --) {

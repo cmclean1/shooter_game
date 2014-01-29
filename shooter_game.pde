@@ -47,12 +47,36 @@ void draw()
     Enemy e = enemies.get(i);
     e.display();
     e.move();
+    if (e.checkShooter(s))
+    {
+      background(255, 0, 0);
+    }
   }
   for (int i = blaster.size()-1; i > 0; i --) {
     blasterEnemy e = blaster.get(i);
     e.display();
     e.move();
     e.shoot();
+    if (e.checkShooter(s))
+    {
+      background(255, 0, 0);
+    }
+    for (int j = e.bullets.size()-1; j > 0; j--)
+    {
+//      for (int w = particles.size()-1; w > 0; w--)
+//      {
+//        if (e.bullets.get(j).checkParticle(particles.get(w)))
+//        {
+//          e.bullets.remove(j);
+//          particles.remove(w);
+//        }
+//      }
+      if (s.checkParticle(e.bullets.get(j)))
+      {
+        background(255, 0, 0);
+        e.bullets.remove(j);
+      }
+    }
   }
   particles.add(new Particle());
   for (int i = particles.size()-1; i > 0; i --)
