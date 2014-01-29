@@ -5,7 +5,7 @@ class enemyBullet
   int d;
   enemyBullet(float x, float y, float velx, float vely)
   {
-    vel = new PVector(velx,vely);
+    vel = new PVector(velx, vely);
     loc = new PVector(x, y);
   }
   void display()

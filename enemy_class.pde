@@ -64,7 +64,7 @@ class blasterEnemy extends Enemy
 
   blasterEnemy()
   {
-    bulletnum = int(random(1, 5));
+    bulletnum = 5;
     bulletTimer = new Timer(2000);
   }
   void aim()
@@ -78,7 +78,7 @@ class blasterEnemy extends Enemy
       {
         for (int i = 0; i < bulletnum; i++)
         {
-          bullets.add(new enemyBullet(loc.x, loc.y, cos(360/(i+1)),sin(360/(i+1))));
+          bullets.add(new enemyBullet(loc.x, loc.y, cos((2*PI)*(i/bulletnum)),sin((2*PI)*(i/bulletnum))));
         }
       }
       for (int i = bullets.size()-1; i > 0; i --) {
