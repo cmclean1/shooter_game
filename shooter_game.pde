@@ -56,6 +56,17 @@ void draw()
       enemies.remove(i);
     }
   }
+  particles.add(new Particle());
+  for (int i = particles.size()-1; i > 0; i --)
+  {
+    Particle p = particles.get(i);
+    p.display();
+    p.move();
+    if (p.loc.x > width || p.loc.x < 0 || p.loc.y > height || p.loc.y < 0)
+    {
+      particles.remove(i);
+    }
+  }
   for (int i = blaster.size()-1; i > 0; i --) {
     blasterEnemy e = blaster.get(i);
     e.display();
@@ -69,6 +80,7 @@ void draw()
     {
       blaster.remove(i);
     }
+
     for (int j = e.bullets.size()-1; j > 0; j--)
     {
       for (int w = particles.size()-1; w > 0; w--)
@@ -93,17 +105,7 @@ void draw()
       }
     }
   }
-  particles.add(new Particle());
-  for (int i = particles.size()-1; i > 0; i --)
-  {
-    Particle p = particles.get(i);
-    p.display();
-    p.move();
-    if (p.loc.x > width || p.loc.x < 0 || p.loc.y > height || p.loc.y < 0)
-    {
-      particles.remove(i);
-    }
-  }
+
   for (int i = particles.size()-1; i > 0; i --)
   {
     if (particles.get(i).dead && particles.get(i).r.life <= 0)

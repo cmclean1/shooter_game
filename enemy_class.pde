@@ -102,3 +102,7 @@ class blasterEnemy extends Enemy
   }
 }
 
+class shoooterEnemy extends Enemy
+{
+  
+}
