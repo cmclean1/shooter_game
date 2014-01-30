@@ -45,6 +45,10 @@ class Enemy
     {
       loc.add(vel);
     }
+    if (dead)
+    {
+      loc.set(-100, -100);
+    }
   }
   boolean checkShooter(Shooter s)
   {

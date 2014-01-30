@@ -51,6 +51,10 @@ void draw()
     {
       background(255, 0, 0);
     }
+    if (e.loc.y-e.d > height)
+    {
+      enemies.remove(i);
+    }
   }
   for (int i = blaster.size()-1; i > 0; i --) {
     blasterEnemy e = blaster.get(i);
@@ -61,20 +65,33 @@ void draw()
     {
       background(255, 0, 0);
     }
+    if (e.loc.y-e.d > height)
+    {
+      blaster.remove(i);
+    }
     for (int j = e.bullets.size()-1; j > 0; j--)
     {
-//      for (int w = particles.size()-1; w > 0; w--)
-//      {
-//        if (e.bullets.get(j).checkParticle(particles.get(w)))
-//        {
-//          e.bullets.remove(j);
-//          particles.remove(w);
-//        }
-//      }
+
+      for (int w = particles.size()-1; w > 0; w--)
+      {
+        if (e.bullets.get(j).checkParticle(particles.get(w)))
+        {
+          e.bullets.remove(j);
+          particles.remove(w);
+          return;
+        }
+      }
+
       if (s.checkParticle(e.bullets.get(j)))
       {
         background(255, 0, 0);
         e.bullets.remove(j);
+        return;
+      }
+      if (e.bullets.get(j).loc.x > width || e.bullets.get(j).loc.x < 0 || e.bullets.get(j).loc.y > height || e.bullets.get(j).loc.y < 0)
+      {
+        e.bullets.remove(j);
+        return;
       }
     }
   }
