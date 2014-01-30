@@ -4,6 +4,8 @@ class Particle
   PVector vel;
   PVector acc;
   int d = 5;
+  Residue r;
+  boolean dead;
   Particle()
   {
     loc = new PVector(s.loc.x, s.loc.y);
@@ -12,11 +14,18 @@ class Particle
   }
   void display()
   {
-    loc.add(shakeScreen);
-    colorMode(HSB, 25, 100, 100);
-    fill(abs(sqrt(sq(vel.x)+sq(vel.y))), 100, 100);
-    noStroke();
-    ellipse(loc.x, loc.y, d, d);
+    if (!dead)
+    {
+      loc.add(shakeScreen);
+      colorMode(HSB, 25, 100, 100);
+      fill(abs(sqrt(sq(vel.x)+sq(vel.y))), 100, 100);
+      noStroke();
+      ellipse(loc.x, loc.y, d, d);
+    }
+    else
+    {
+      r.display();
+    }
   }
   void move()
   {

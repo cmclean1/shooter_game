@@ -81,7 +81,6 @@ void draw()
           return;
         }
       }
-
       if (s.checkParticle(e.bullets.get(j)))
       {
         background(255, 0, 0);
@@ -101,7 +100,6 @@ void draw()
     Particle p = particles.get(i);
     p.display();
     p.move();
-
     if (p.loc.x > width || p.loc.x < 0 || p.loc.y > height || p.loc.y < 0)
     {
       particles.remove(i);
@@ -114,8 +112,12 @@ void draw()
       if (enemies.get(j).checkParticle(particles.get(i)) && !enemies.get(j).dead)
       {
         enemies.get(j).hit = true;
-        particles.remove(i);
-
+        particles.get(i).dead = true;
+        particles.get(i).r = new Residue(particles.get(i).loc.x, particles.get(i).loc.y, -particles.get(i).vel.x+(random(-3, 3)), -particles.get(i).vel.y+(random(-3, 3)));
+        if (particles.get(i).r.life <= 0)
+        {
+          particles.remove(i);
+        }
         enemies.get(j).life--;
         if (enemies.get(j).life <= 0)
         {
@@ -137,8 +139,13 @@ void draw()
       if (blaster.get(j).checkParticle(particles.get(i)) && !blaster.get(j).dead)
       {
         blaster.get(j).hit = true;
-        particles.remove(i);
-
+        enemies.get(j).hit = true;
+        particles.get(i).dead = true;
+        particles.get(i).r = new Residue(particles.get(i).loc.x, particles.get(i).loc.y, -particles.get(i).vel.x, -particles.get(i).vel.y);
+        if (particles.get(i).r.life <= 0)
+        {
+          particles.remove(i);
+        }
         blaster.get(j).life--;
         if (blaster.get(j).life <= 0)
         {
