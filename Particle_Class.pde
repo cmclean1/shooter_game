@@ -25,6 +25,7 @@ class Particle
     else
     {
       r.display();
+      loc.set(-100, -100);
     }
   }
   void move()

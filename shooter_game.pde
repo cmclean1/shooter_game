@@ -71,7 +71,6 @@ void draw()
     }
     for (int j = e.bullets.size()-1; j > 0; j--)
     {
-
       for (int w = particles.size()-1; w > 0; w--)
       {
         if (e.bullets.get(j).checkParticle(particles.get(w)))
@@ -107,6 +106,11 @@ void draw()
   }
   for (int i = particles.size()-1; i > 0; i --)
   {
+    if (particles.get(i).dead && particles.get(i).r.life <= 0)
+    {
+      particles.remove(i);
+      return;
+    }
     for (int j = enemies.size()-1; j > 0; j --)
     {
       if (enemies.get(j).checkParticle(particles.get(i)) && !enemies.get(j).dead)
@@ -114,10 +118,7 @@ void draw()
         enemies.get(j).hit = true;
         particles.get(i).dead = true;
         particles.get(i).r = new Residue(particles.get(i).loc.x, particles.get(i).loc.y, -particles.get(i).vel.x+(random(-3, 3)), -particles.get(i).vel.y+(random(-3, 3)));
-        if (particles.get(i).r.life <= 0)
-        {
-          particles.remove(i);
-        }
+
         enemies.get(j).life--;
         if (enemies.get(j).life <= 0)
         {
@@ -134,12 +135,16 @@ void draw()
   }
   for (int i = particles.size()-1; i > 0; i --)
   {
+    if (particles.get(i).dead && particles.get(i).r.life <= 0)
+    {
+      particles.remove(i);
+      return;
+    }
     for (int j = blaster.size()-1; j > 0; j --)
     {
       if (blaster.get(j).checkParticle(particles.get(i)) && !blaster.get(j).dead)
       {
         blaster.get(j).hit = true;
-        enemies.get(j).hit = true;
         particles.get(i).dead = true;
         particles.get(i).r = new Residue(particles.get(i).loc.x, particles.get(i).loc.y, -particles.get(i).vel.x, -particles.get(i).vel.y);
         if (particles.get(i).r.life <= 0)
