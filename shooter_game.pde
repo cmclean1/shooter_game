@@ -299,11 +299,11 @@ void game()
   }
   for (int i = particles.size()-1; i > 0; i --)
   {
-//    if (particles.get(i).dead && particles.get(i).r.life <= 0)
-//    {
-//      particles.remove(i);
-//      return;
-//    }
+    //    if (particles.get(i).dead && particles.get(i).r.life <= 0)
+    //    {
+    //      particles.remove(i);
+    //      return;
+    //    }
     for (int j = blaster.size()-1; j > 0; j --)
     {
       if (blaster.get(j).checkParticle(particles.get(i)) && !blaster.get(j).dead)
@@ -331,11 +331,11 @@ void game()
   }
   for (int i = particles.size()-1; i > 0; i --)
   {
-//    if (particles.get(i).dead && particles.get(i).r.life <= 0)
-//    {
-//      particles.remove(i);
-//      return;
-//    }
+    //    if (particles.get(i).dead && particles.get(i).r.life <= 0)
+    //    {
+    //      particles.remove(i);
+    //      return;
+    //    }
     for (int j = shooter.size()-1; j > 0; j --)
     {
       if (shooter.get(j).checkParticle(particles.get(i)) && !shooter.get(j).dead)
