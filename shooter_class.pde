@@ -5,7 +5,7 @@ class Shooter
   PVector vel;
   PVector acc;
   ArrayList<Engine> engineP = new ArrayList<Engine>();
-
+  int life = 10;
   Shooter()
   {
     loc = new PVector(width/2, height/2);

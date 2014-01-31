@@ -3,7 +3,7 @@ class Residue
   PVector[] loc = new PVector[10];
   PVector[] vel = new PVector[10];
   int life = 100;
-  int d = 2;
+  int d = 5;
   Residue(float x, float y, float velx, float vely)
   {
     for (int i = 0; i < loc.length; i++)

@@ -1,24 +1,100 @@
 Shooter s;
-blasterEnemy e = new blasterEnemy();
-ArrayList<Enemy> enemies = new ArrayList<Enemy>();
-ArrayList<blasterEnemy> blaster = new ArrayList<blasterEnemy>();
+ArrayList<Enemy> enemies;
+ArrayList<blasterEnemy> blaster;
 PVector shakeScreen;
-ArrayList<Particle> particles = new ArrayList<Particle>();
+ArrayList<Particle> particles;
 boolean[] keys = new boolean[4];
 int timer;
 Timer enemyTimer;
-boolean dark;
+boolean dark = true;
+int location = 0;
+PFont font;
+Button Play;
+Button Intructions;
+Button Credits;
+Button Back;
+ArrayList<Star> stars = new ArrayList<Star>();
+boolean play;
 void setup()
 {
   size(800, 700);
   shakeScreen = new PVector(0, 0);
-  s = new Shooter();
-  enemyTimer = new Timer(5000);
-  particles.add(new Particle());
-  enemies.add(new Enemy());
-  blaster.add(new blasterEnemy());
+
+  font = loadFont("VirtualDJ-48.vlw");
+  textFont(font);
+  Play = new Button(width/2, "PLAY", 1, true);
+  Intructions = new Button(width/2+75, "DEBRIEF", 2, false);
+  Credits = new Button(width/2+150, "CREDITS", 3, false);
+  Back = new Button(width/2+200, "BACK", 0, false);
+
+  stars.add(new Star());
 }
 void draw()
+{
+  if (!play)
+  {
+    menu();
+  }
+  else
+  {
+    game();
+  }
+  stars.add(new Star());
+  for (int i = stars.size()-1; i > 0; i--)
+  {
+    Star s = stars.get(i);
+    s.display();
+    s.move();
+    if (s.loc.y < 0)
+    {
+      stars.remove(i);
+    }
+  }
+}
+void keyPressed()
+{
+  if (key == 'w')
+  {
+    keys[0] = true;
+  }
+  if (key == 's')
+  {
+    keys[1] = true;
+  }
+  if (key == 'a')
+  {
+    keys[2] = true;
+  }
+  if (key == 'd')
+  {
+    keys[3] = true;
+  }
+  //  if(key == ' ')
+  //  {
+  //    shakeScreen = PVector.random2D();
+  //    shakeScreen.set(-shakeScreen.x,-shakeScreen.y);
+  //  }
+}
+void keyReleased()
+{
+  if (key == 'w')
+  {
+    keys[0] = false;
+  }
+  if (key == 's')
+  {
+    keys[1] = false;
+  }
+  if (key == 'a')
+  {
+    keys[2] = false;
+  }
+  if (key == 'd')
+  {
+    keys[3] = false;
+  }
+}
+void game()
 {
   colorMode(RGB, 255, 255, 255);
   rectMode(CORNER);
@@ -50,6 +126,12 @@ void draw()
     if (e.checkShooter(s))
     {
       background(255, 0, 0);
+      s.life--;
+      if (s.life <= 0)
+      {
+        location = 0;
+        play = false;
+      }
     }
     if (e.loc.y-e.d > height)
     {
@@ -75,6 +157,12 @@ void draw()
     if (e.checkShooter(s))
     {
       background(255, 0, 0);
+      s.life--;
+      if (s.life <= 0)
+      {
+        location = 0;
+        play = false;
+      }
     }
     if (e.loc.y-e.d > height)
     {
@@ -95,6 +183,12 @@ void draw()
       if (s.checkParticle(e.bullets.get(j)))
       {
         background(255, 0, 0);
+        s.life--;
+        if (s.life <= 0)
+        {
+          location = 0;
+          play = false;
+        }
         e.bullets.remove(j);
         return;
       }
@@ -168,47 +262,41 @@ void draw()
     }
   }
 }
-void keyPressed()
+void menu()
 {
-  if (key == 'w')
+  fill(0, 10);
+  rectMode(CORNER);
+  rect(0, 0, width, height);
+  textAlign(CENTER);
+  textSize(50);
+  fill(255);
+  if (location == 0)
   {
-    keys[0] = true;
+    text("NAMELESS \nSHOOTER GAME", width/2, height/2-200);
+    Play.display();
+    Intructions.display();
+    Credits.display();
   }
-  if (key == 's')
+  if (location == 2)
   {
-    keys[1] = true;
+    Back.display();
   }
-  if (key == 'a')
+  if (location == 3)
   {
-    keys[2] = true;
+    Back.display();
   }
-  if (key == 'd')
-  {
-    keys[3] = true;
-  }
-  //  if(key == ' ')
-  //  {
-  //    shakeScreen = PVector.random2D();
-  //    shakeScreen.set(-shakeScreen.x,-shakeScreen.y);
-  //  }
 }
-void keyReleased()
+void mousePressed()
 {
-  if (key == 'w')
+  if (location == 0)
   {
-    keys[0] = false;
+    Play.ifClicked();
+    Intructions.ifClicked();
+    Credits.ifClicked();
   }
-  if (key == 's')
+  if (location == 2 || location == 3)
   {
-    keys[1] = false;
-  }
-  if (key == 'a')
-  {
-    keys[2] = false;
-  }
-  if (key == 'd')
-  {
-    keys[3] = false;
+    Back.ifClicked();
   }
 }
 
