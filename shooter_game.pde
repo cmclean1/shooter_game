@@ -136,6 +136,7 @@ void game()
     Enemy e = enemies.get(i);
     e.display();
     e.move();
+    ((blasterEnemy)e).shoot();
     if (e.checkShooter(s))
     {
       background(255, 0, 0);
