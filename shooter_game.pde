@@ -131,6 +131,7 @@ void game()
       {
         location = 0;
         play = false;
+        dark = true;
       }
     }
     if (e.loc.y-e.d > height)
@@ -161,6 +162,7 @@ void game()
       if (s.life <= 0)
       {
         location = 0;
+        dark = true;
         play = false;
       }
     }
@@ -188,6 +190,7 @@ void game()
         {
           location = 0;
           play = false;
+          dark = true;
         }
         e.bullets.remove(j);
         return;
@@ -214,7 +217,6 @@ void game()
         enemies.get(j).hit = true;
         particles.get(i).dead = true;
         particles.get(i).r = new Residue(particles.get(i).loc.x, particles.get(i).loc.y, -particles.get(i).vel.x+(random(-3, 3)), -particles.get(i).vel.y+(random(-3, 3)));
-
         enemies.get(j).life--;
         if (enemies.get(j).life <= 0)
         {
@@ -280,10 +282,18 @@ void menu()
   if (location == 2)
   {
     Back.display();
+    fill(0, 0, 255);
+    textAlign(LEFT);
+    textSize(20);
+    text("MOVE WITH WSAD \nCONTROL SHOOTER WITH MOUSE \nKILL BLUE ENEMIES \nAVOID BULLETS \nPRESS MOUSE TO CHANGE SHOOTER", 10, 50);
   }
   if (location == 3)
   {
     Back.display();
+    fill(0, 0, 255);
+    textAlign(LEFT);
+    textSize(20);
+    text("EVERYTHING AND EVERYTHING BY CLAYTON MCLEAN", 10, 50);
   }
 }
 void mousePressed()
