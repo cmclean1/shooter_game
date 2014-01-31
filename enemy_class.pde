@@ -102,7 +102,50 @@ class blasterEnemy extends Enemy
   }
 }
 
-class shoooterEnemy extends Enemy
+class shooterEnemy extends Enemy
 {
-  
+  Timer bulletTimer;
+  ArrayList<enemyBullet> bullets = new ArrayList<enemyBullet>();
+  float bulletX;
+  float bulletY;
+  shooterEnemy()
+  {
+    bulletTimer = new Timer(1000);
+  }
+  void aim(Shooter s)
+  {
+    float x = dist(s.loc.x, 0, loc.x, 0);
+    float y = dist(0, s.loc.y, 0, loc.y);
+    bulletX = dist(s.loc.x, 0, loc.x, 0)/100;
+    bulletY = dist(0, s.loc.y, 0, loc.y)/100;
+    if (s.loc.x < loc.x)
+    {
+      bulletX*=-1;
+    }
+    if (s.loc.y < loc.y)
+    {
+      bulletY*=-1;
+    }
+    while (bulletX > 10)
+    {
+      bulletX/=1.1;
+      bulletY/=1.1;
+    }
+  }
+  void shoot()
+  {
+    if (!dead)
+    {
+      if (bulletTimer.go())
+      {
+        bullets.add(new enemyBullet(loc.x, loc.y, bulletX, bulletY));
+      }
+      for (int i = bullets.size()-1; i > 0; i --) {
+        enemyBullet b = bullets.get(i);
+        b.move();
+        b.display();
+      }
+    }
+  }
 }
+
