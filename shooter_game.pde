@@ -16,6 +16,9 @@ Button Credits;
 Button Back;
 ArrayList<Star> stars = new ArrayList<Star>();
 boolean play;
+int score;
+boolean paused;
+boolean gameOver;
 void setup()
 {
   size(800, 700);
@@ -32,15 +35,6 @@ void setup()
 }
 void draw()
 {
-  print(dark);
-  if (!play)
-  {
-    menu();
-  }
-  else
-  {
-    game();
-  }
   stars.add(new Star());
   for (int i = stars.size()-1; i > 0; i--)
   {
@@ -52,24 +46,72 @@ void draw()
       stars.remove(i);
     }
   }
+  if (!play)
+  {
+    menu();
+  }
+  else
+  {
+    if(!gameOver)
+    {
+    game();
+    }
+    else
+    {
+      gameOver();
+    }
+  }
+}
+void gameOver()
+{
+  fill(0);
+  textAlign(CENTER);
+  textSize(20);
+  text("YOU LOSE. FINAL SCORE: \n\n" + score + "\n\nPRESS ENTER TO RETURN TO MENU",width/2,height/2);
+  noLoop();
 }
 void keyPressed()
 {
-  if (key == 'w')
+  if (key == 'w' || key == 'W')
   {
     keys[0] = true;
   }
-  if (key == 's')
+  if (key == 's'  || key == 'S')
   {
     keys[1] = true;
   }
-  if (key == 'a')
+  if (key == 'a'  || key == 'A')
   {
     keys[2] = true;
   }
-  if (key == 'd')
+  if (key == 'd'  || key == 'D')
   {
     keys[3] = true;
+  }
+  if(key == 'p' || key == 'P')
+  {
+    if(play && !gameOver)
+    {
+      paused = !paused;
+      if(paused)
+      {
+        noLoop();
+      }
+      else
+      {
+        loop();
+      }
+    }
+  }
+  if(keyCode == ENTER)
+  {
+    if(gameOver)
+    {
+      play = false;
+      score = 0;
+      gameOver = false;
+      loop();
+    }
   }
   //  if(key == ' ')
   //  {
@@ -79,19 +121,19 @@ void keyPressed()
 }
 void keyReleased()
 {
-  if (key == 'w')
+  if (key == 'w'  || key == 'W')
   {
     keys[0] = false;
   }
-  if (key == 's')
+  if (key == 's'  || key == 'S')
   {
     keys[1] = false;
   }
-  if (key == 'a')
+  if (key == 'a'  || key == 'A')
   {
     keys[2] = false;
   }
-  if (key == 'd')
+  if (key == 'd'  || key == 'D')
   {
     keys[3] = false;
   }
@@ -99,6 +141,19 @@ void keyReleased()
 void game()
 {
   colorMode(RGB, 255, 255, 255);
+  if (dark)
+  {
+    fill(255);
+  }
+  else
+  {
+    fill(0);
+  }
+  textSize(15);
+  textAlign(LEFT);
+  text("SCORE: " + score, 10, height-10);
+  textAlign(RIGHT);
+  text("HEALTH: " + s.life, width-10, height-10);
   rectMode(CORNER);
   //background(255);
   if (mousePressed && mouseButton == LEFT)
@@ -121,7 +176,7 @@ void game()
     int random = int(random(3));
     if (random == 0)
     {
-      blaster.add(new blasterEnemy());
+      enemies.add(new blasterEnemy());
     }
     else if (random == 1)
     {
@@ -129,14 +184,22 @@ void game()
     }
     else
     {
-      shooter.add(new shooterEnemy());
+      enemies.add(new shooterEnemy());
     }
   }
   for (int i = enemies.size()-1; i > 0; i --) {
     Enemy e = enemies.get(i);
     e.display();
     e.move();
-    ((blasterEnemy)e).shoot();
+    if (e instanceof  blasterEnemy)
+    {
+      ((blasterEnemy)e).shoot();
+    }
+    if (e instanceof  shooterEnemy)
+    {
+      ((shooterEnemy)e).aim(s);
+      ((shooterEnemy)e).shoot();
+    }
     if (e.checkShooter(s))
     {
       background(255, 0, 0);
@@ -144,7 +207,7 @@ void game()
       if (s.life <= 0)
       {
         location = 0;
-        play = false;
+        gameOver = true;
         dark = true;
       }
     }
@@ -152,9 +215,76 @@ void game()
     {
       enemies.remove(i);
     }
+    if (e instanceof  shooterEnemy)
+    {
+      for (int j = ((shooterEnemy)e).bullets.size()-1; j > 0; j--)
+      {
+        for (int w = particles.size()-1; w > 0; w--)
+        {
+          if (((shooterEnemy)e).bullets.get(j).checkParticle(particles.get(w)))
+          {
+            ((shooterEnemy)e).bullets.remove(j);
+            particles.remove(w);
+            return;
+          }
+        }
+        if (s.checkParticle(((shooterEnemy)e).bullets.get(j)))
+        {
+          background(255, 0, 0);
+          s.life--;
+          if (s.life <= 0)
+          {
+            location = 0;
+            gameOver = true;
+            dark = true;
+          }
+          ((shooterEnemy)e).bullets.remove(j);
+          return;
+        }
+        if (((shooterEnemy)e).bullets.get(j).loc.x > width || ((shooterEnemy)e).bullets.get(j).loc.x < 0 || ((shooterEnemy)e).bullets.get(j).loc.y > height || ((shooterEnemy)e).bullets.get(j).loc.y < 0)
+        {
+          ((shooterEnemy)e).bullets.remove(j);
+          return;
+        }
+      }
+    }
+    if (e instanceof  blasterEnemy)
+    {
+      for (int j = ((blasterEnemy)e).bullets.size()-1; j > 0; j--)
+      {
+        for (int w = particles.size()-1; w > 0; w--)
+        {
+          if (((blasterEnemy)e).bullets.get(j).checkParticle(particles.get(w)))
+          {
+            ((blasterEnemy)e).bullets.remove(j);
+            particles.remove(w);
+            return;
+          }
+        }
+        if (s.checkParticle(((blasterEnemy)e).bullets.get(j)))
+        {
+          background(255, 0, 0);
+          s.life--;
+          if (s.life <= 0)
+          {
+            location = 0;
+            gameOver = true;
+            dark = true;
+          }
+          ((blasterEnemy)e).bullets.remove(j);
+          return;
+        }
+        if (((blasterEnemy)e).bullets.get(j).loc.x > width || ((blasterEnemy)e).bullets.get(j).loc.x < 0 || ((blasterEnemy)e).bullets.get(j).loc.y > height || ((blasterEnemy)e).bullets.get(j).loc.y < 0)
+        {
+          ((blasterEnemy)e).bullets.remove(j);
+          return;
+        }
+      }
+    }
   }
-
   particles.add(new Particle());
+  println(enemies.size());
+
   for (int i = particles.size()-1; i > 0; i --)
   {
     Particle p = particles.get(i);
@@ -165,111 +295,7 @@ void game()
       particles.remove(i);
     }
   }
-  for (int i = blaster.size()-1; i > 0; i --) {
-    blasterEnemy e = blaster.get(i);
-    e.display();
-    e.move();
-    e.shoot();
-    if (e.checkShooter(s))
-    {
-      background(255, 0, 0);
-      s.life--;
-      if (s.life <= 0)
-      {
-        location = 0;
-        dark = true;
-        play = false;
-      }
-    }
-    if (e.loc.y-e.d > height)
-    {
-      blaster.remove(i);
-    }
 
-    for (int j = e.bullets.size()-1; j > 0; j--)
-    {
-      for (int w = particles.size()-1; w > 0; w--)
-      {
-        if (e.bullets.get(j).checkParticle(particles.get(w)))
-        {
-          e.bullets.remove(j);
-          particles.remove(w);
-          return;
-        }
-      }
-      if (s.checkParticle(e.bullets.get(j)))
-      {
-        background(255, 0, 0);
-        s.life--;
-        if (s.life <= 0)
-        {
-          location = 0;
-          play = false;
-          dark = true;
-        }
-        e.bullets.remove(j);
-        return;
-      }
-      if (e.bullets.get(j).loc.x > width || e.bullets.get(j).loc.x < 0 || e.bullets.get(j).loc.y > height || e.bullets.get(j).loc.y < 0)
-      {
-        e.bullets.remove(j);
-        return;
-      }
-    }
-  }
-  for (int i = shooter.size()-1; i > 0; i --) {
-    shooterEnemy e = shooter.get(i);
-    e.display();
-    e.move();
-    e.aim(s);
-    e.shoot();
-    if (e.checkShooter(s))
-    {
-      background(255, 0, 0);
-      s.life--;
-      if (s.life <= 0)
-      {
-        location = 0;
-        dark = true;
-        play = false;
-      }
-    }
-    if (e.loc.y-e.d > height)
-    {
-      shooter.remove(i);
-    }
-
-    for (int j = e.bullets.size()-1; j > 0; j--)
-    {
-      for (int w = particles.size()-1; w > 0; w--)
-      {
-        if (e.bullets.get(j).checkParticle(particles.get(w)))
-        {
-          e.bullets.remove(j);
-          particles.remove(w);
-          return;
-        }
-      }
-      if (s.checkParticle(e.bullets.get(j)))
-      {
-        background(255, 0, 0);
-        s.life--;
-        if (s.life <= 0)
-        {
-          location = 0;
-          play = false;
-          dark = true;
-        }
-        e.bullets.remove(j);
-        return;
-      }
-      if (e.bullets.get(j).loc.x > width || e.bullets.get(j).loc.x < 0 || e.bullets.get(j).loc.y > height || e.bullets.get(j).loc.y < 0)
-      {
-        e.bullets.remove(j);
-        return;
-      }
-    }
-  }
   for (int i = particles.size()-1; i > 0; i --)
   {
     if (particles.get(i).dead && particles.get(i).r.life <= 0)
@@ -289,76 +315,13 @@ void game()
         {
           enemies.get(j).e = new Explosion(enemies.get(j).loc.x, enemies.get(j).loc.y);
           enemies.get(j).dead = true;
+          score+=enemies.get(j).scoreUp;
         }
         return;
       }
       else
       {
         enemies.get(j).hit = false;
-      }
-    }
-  }
-  for (int i = particles.size()-1; i > 0; i --)
-  {
-    //    if (particles.get(i).dead && particles.get(i).r.life <= 0)
-    //    {
-    //      particles.remove(i);
-    //      return;
-    //    }
-    for (int j = blaster.size()-1; j > 0; j --)
-    {
-      if (blaster.get(j).checkParticle(particles.get(i)) && !blaster.get(j).dead)
-      {
-        blaster.get(j).hit = true;
-        particles.get(i).dead = true;
-        particles.get(i).r = new Residue(particles.get(i).loc.x, particles.get(i).loc.y, -particles.get(i).vel.x, -particles.get(i).vel.y);
-        if (particles.get(i).r.life <= 0)
-        {
-          particles.remove(i);
-        }
-        blaster.get(j).life--;
-        if (blaster.get(j).life <= 0)
-        {
-          blaster.get(j).e = new Explosion(blaster.get(j).loc.x, blaster.get(j).loc.y);
-          blaster.get(j).dead = true;
-        }
-        return;
-      }
-      else
-      {
-        blaster.get(j).hit = false;
-      }
-    }
-  }
-  for (int i = particles.size()-1; i > 0; i --)
-  {
-    //    if (particles.get(i).dead && particles.get(i).r.life <= 0)
-    //    {
-    //      particles.remove(i);
-    //      return;
-    //    }
-    for (int j = shooter.size()-1; j > 0; j --)
-    {
-      if (shooter.get(j).checkParticle(particles.get(i)) && !shooter.get(j).dead)
-      {
-        shooter.get(j).hit = true;
-        particles.get(i).dead = true;
-        particles.get(i).r = new Residue(particles.get(i).loc.x, particles.get(i).loc.y, -particles.get(i).vel.x, -particles.get(i).vel.y);
-        if (particles.get(i).r.life <= 0)
-        {
-          particles.remove(i);
-        }
-        shooter.get(j).life--;
-        if (shooter.get(j).life <= 0)
-        {
-          shooter.get(j).e = new Explosion(shooter.get(j).loc.x, shooter.get(j).loc.y);
-          shooter.get(j).dead = true;
-        }
-        return;
-      }
-      else
-      {
-        shooter.get(j).hit = false;
       }
     }
   }
@@ -392,7 +355,7 @@ void menu()
     fill(0, 0, 255);
     textAlign(LEFT);
     textSize(20);
-    text("EVERYTHING AND EVERYTHING BY CLAYTON MCLEAN", 10, 50);
+    text("ANYTHING AND EVERYTHING BY CLAYTON MCLEAN", 10, 50);
   }
 }
 void mousePressed()

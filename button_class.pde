@@ -38,7 +38,6 @@ class Button {
         s = new Shooter();
         blaster = new ArrayList<blasterEnemy>();
         shooter = new ArrayList<shooterEnemy>();
-
         enemies = new ArrayList<Enemy>();
         particles = new ArrayList<Particle>();
         enemyTimer = new Timer(5000);

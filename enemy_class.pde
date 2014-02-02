@@ -2,35 +2,38 @@ class Enemy
 {
   PVector loc;
   PVector vel;
-  int w;
+  float w;
   float d;
   boolean hit;
-  int life = 100;
+  int life = int(random(50, 201));
   Explosion e;
   boolean dead;
   int deadLife = 20;
+  int scoreUp;
   Enemy()
   {
-    vel = new PVector(0, .5);
-    w = 50;
+    vel = new PVector(0, random(.2, .8));
+    w = random(25, 50);
     d = sqrt(2)*w;
-    loc = new PVector(random(d, width-d), 0);
+    d*=1.1;
+    loc = new PVector(random(d, width-d), -d/2);
+    scoreUp = life*10+(int(w)*10);
   }
   void display()
   {
+    colorMode(RGB, 255, 255, 255, 100);
     if (!dead)
     {
-      colorMode(RGB, 255, 255, 255);
-      fill(150);
+      fill(150, 255);
       rectMode(CENTER);
       rect(loc.x, loc.y, w, w);
       if (!hit)
       {
-        fill(0, 0, 255, 100);
+        fill(0, 0, 255, 25);
       }
       else
       {
-        fill(255, 0, 0, 100);
+        fill(255, 0, 0, 25);
       }
       ellipse(loc.x, loc.y, d, d);
     }
@@ -71,16 +74,15 @@ class blasterEnemy extends Enemy
 {
 
   Timer bulletTimer;
-  float bulletnum = 5;
+  int bulletnum = 5;
   ArrayList<enemyBullet> bullets = new ArrayList<enemyBullet>();
-
+  float bulletSpeed = random(2);
+  float bulletD = random(3, 6);
   blasterEnemy()
   {
-    bulletnum =10;
-    bulletTimer = new Timer(2000);
-  }
-  void aim()
-  {
+    bulletnum = int(random(5, 13));
+    bulletTimer = new Timer(int(random(1000, 2000)));
+    scoreUp = life*10+(int(w)*10)+(bulletnum*100)+(int(bulletSpeed*100))+int(bulletD*10);
   }
   void shoot()
   {
@@ -90,14 +92,14 @@ class blasterEnemy extends Enemy
       {
         for (float i = 0; i < bulletnum; i++)
         {
-          bullets.add(new enemyBullet(loc.x, loc.y, cos((2*PI)*(i/bulletnum)), sin((2*PI)*(i/bulletnum))));
+          bullets.add(new enemyBullet(loc.x, loc.y, cos((2*PI)*(i/bulletnum))*bulletSpeed, sin((2*PI)*(i/bulletnum))*bulletSpeed, bulletD));
         }
       }
-      for (int i = bullets.size()-1; i > 0; i --) {
-        enemyBullet b = bullets.get(i);
-        b.move();
-        b.display();
-      }
+    }
+    for (int i = bullets.size()-1; i > 0; i --) {
+      enemyBullet b = bullets.get(i);
+      b.move();
+      b.display();
     }
   }
 }
@@ -108,9 +110,11 @@ class shooterEnemy extends Enemy
   ArrayList<enemyBullet> bullets = new ArrayList<enemyBullet>();
   float bulletX;
   float bulletY;
+  float bulletD = random(3, 6);
   shooterEnemy()
   {
-    bulletTimer = new Timer(1000);
+    bulletTimer = new Timer(int(random(500, 2000)));
+    scoreUp = life*10+(int(w)*10)+int(bulletD*10)+int((3000-bulletTimer.duration));
   }
   void aim(Shooter s)
   {
@@ -138,13 +142,13 @@ class shooterEnemy extends Enemy
     {
       if (bulletTimer.go())
       {
-        bullets.add(new enemyBullet(loc.x, loc.y, bulletX, bulletY));
+        bullets.add(new enemyBullet(loc.x, loc.y, bulletX, bulletY, bulletD));
       }
-      for (int i = bullets.size()-1; i > 0; i --) {
-        enemyBullet b = bullets.get(i);
-        b.move();
-        b.display();
-      }
+    }
+    for (int i = bullets.size()-1; i > 0; i--) {
+      enemyBullet b = bullets.get(i);
+      b.move();
+      b.display();
     }
   }
 }

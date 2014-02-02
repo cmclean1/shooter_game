@@ -2,11 +2,12 @@ class enemyBullet
 {
   PVector loc;
   PVector vel;
-  int d = 4;
-  enemyBullet(float x, float y, float velx, float vely)
+  float d;
+  enemyBullet(float x, float y, float velx, float vely, float _d)
   {
     vel = new PVector(velx, vely);
     loc = new PVector(x, y);
+    d = _d;
   }
   void display()
   {
