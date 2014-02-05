@@ -1,7 +1,5 @@
-
 Shooter s;
 ArrayList<Enemy> enemies;
-ArrayList<Explosion> explosions;
 ArrayList<blasterEnemy> blaster;
 ArrayList<shooterEnemy> shooter;
 PVector shakeScreen;
@@ -25,12 +23,14 @@ void setup()
 {
   size(800, 700);
   shakeScreen = new PVector(0, 0);
+
   font = loadFont("VirtualDJ-48.vlw");
   textFont(font);
   Play = new Button(width/2, "PLAY", 1, true);
   Intructions = new Button(width/2+75, "DEBRIEF", 2, false);
   Credits = new Button(width/2+150, "CREDITS", 3, false);
   Back = new Button(width/2+200, "BACK", 0, false);
+
   stars.add(new Star());
 }
 void draw()
@@ -52,9 +52,9 @@ void draw()
   }
   else
   {
-    if (!gameOver)
+    if(!gameOver)
     {
-      game();
+    game();
     }
     else
     {
@@ -67,7 +67,7 @@ void gameOver()
   fill(0);
   textAlign(CENTER);
   textSize(20);
-  text("YOU LOSE. FINAL SCORE: \n\n" + score + "\n\nPRESS ENTER TO RETURN TO MENU", width/2, height/2);
+  text("YOU LOSE. FINAL SCORE: \n\n" + score + "\n\nPRESS ENTER TO RETURN TO MENU",width/2,height/2);
   noLoop();
 }
 void keyPressed()
@@ -88,12 +88,12 @@ void keyPressed()
   {
     keys[3] = true;
   }
-  if (key == 'p' || key == 'P')
+  if(key == 'p' || key == 'P')
   {
-    if (play && !gameOver)
+    if(play && !gameOver)
     {
       paused = !paused;
-      if (paused)
+      if(paused)
       {
         noLoop();
       }
@@ -103,9 +103,9 @@ void keyPressed()
       }
     }
   }
-  if (keyCode == ENTER)
+  if(keyCode == ENTER)
   {
-    if (gameOver)
+    if(gameOver)
     {
       play = false;
       score = 0;
@@ -187,7 +187,6 @@ void game()
       enemies.add(new shooterEnemy());
     }
   }
-
   for (int i = enemies.size()-1; i > 0; i --) {
     Enemy e = enemies.get(i);
     e.display();
@@ -284,15 +283,8 @@ void game()
     }
   }
   particles.add(new Particle());
-  println(particles.size());
-  for (int i = explosions.size()-1; i > 0; i--) {
-    Explosion e = explosions.get(i);
-    e.display();
-    if (e.dead)
-    {
-      explosions.remove(i);
-    }
-  }
+  println(enemies.size());
+
   for (int i = particles.size()-1; i > 0; i --)
   {
     Particle p = particles.get(i);
@@ -321,10 +313,9 @@ void game()
         enemies.get(j).life--;
         if (enemies.get(j).life <= 0)
         {
-          explosions.add(new Explosion(enemies.get(j).loc.x, enemies.get(j).loc.y));
-          // enemies.get(j).dead = true;
+          enemies.get(j).e = new Explosion(enemies.get(j).loc.x, enemies.get(j).loc.y);
+          enemies.get(j).dead = true;
           score+=enemies.get(j).scoreUp;
-          enemies.remove(j);
         }
         return;
       }

@@ -37,6 +37,10 @@ class Enemy
       }
       ellipse(loc.x, loc.y, d, d);
     }
+    else
+    {
+      e.display();
+    }
   }
   void move()
   {

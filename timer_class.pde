@@ -1,5 +1,5 @@
 class Timer
-{ 
+{
   int duration;
   int maxTime;
   Timer(int _duration)

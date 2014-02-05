@@ -44,8 +44,6 @@ class Button {
         particles.add(new Particle());
         enemies.add(new Enemy());
         blaster.add(new blasterEnemy());
-        explosions = new ArrayList<Explosion>();
-        explosions.add(new Explosion(100, 100));
       }
     }
   }
