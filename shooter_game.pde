@@ -19,6 +19,8 @@ boolean play;
 int score;
 boolean paused;
 boolean gameOver;
+int multiplier = 1;
+int enemiesKilled;
 void setup()
 {
   size(800, 700);
@@ -156,6 +158,7 @@ void game()
   textSize(15);
   textAlign(LEFT);
   text("SCORE: " + score, 10, height-10);
+  text("x" + multiplier, 10, height-25);
   textAlign(RIGHT);
   text("HEALTH: " + s.life, width-10, height-10);
   rectMode(CORNER);
@@ -178,7 +181,7 @@ void game()
   s.display();
   s.friction();
   s.move();
-  println(enemyTimer.maxTime);
+  println(enemies.size());
   if (enemyTimer.go())
   {
     enemyTimer.duration-=5;
@@ -213,6 +216,7 @@ void game()
     {
       background(255, 0, 0);
       s.life--;
+      enemiesKilled = 0;
       if (s.life <= 0)
       {
         location = 0;
@@ -241,6 +245,7 @@ void game()
         {
           background(255, 0, 0);
           s.life--;
+          enemiesKilled = 0;
           if (s.life <= 0)
           {
             location = 0;
@@ -274,6 +279,7 @@ void game()
         {
           background(255, 0, 0);
           s.life--;
+          enemiesKilled = 0;
           if (s.life <= 0)
           {
             location = 0;
@@ -326,7 +332,8 @@ void game()
         {
           enemies.get(j).e = new Explosion(enemies.get(j).loc.x, enemies.get(j).loc.y);
           enemies.get(j).dead = true;
-          score+=enemies.get(j).scoreUp;
+          enemiesKilled++;
+          score+=enemies.get(j).scoreUp*multiplier;
         }
         return;
       }
