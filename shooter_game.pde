@@ -34,12 +34,16 @@ void setup()
   stars.add(new Star());
 }
 void draw()
-{
-  stars.add(new Star());
+{    
+  if (!paused)
+  {
+    stars.add(new Star());
+  }
   for (int i = stars.size()-1; i > 0; i--)
   {
     Star s = stars.get(i);
     s.display();
+
     s.move();
     if (s.loc.y < 0)
     {
@@ -52,9 +56,9 @@ void draw()
   }
   else
   {
-    if(!gameOver)
+    if (!gameOver)
     {
-    game();
+      game();
     }
     else
     {
@@ -67,7 +71,7 @@ void gameOver()
   fill(0);
   textAlign(CENTER);
   textSize(20);
-  text("YOU LOSE. FINAL SCORE: \n\n" + score + "\n\nPRESS ENTER TO RETURN TO MENU",width/2,height/2);
+  text("YOU LOSE. FINAL SCORE: \n\n" + score + "\n\nPRESS ENTER TO RETURN TO MENU", width/2, height/2);
   noLoop();
 }
 void keyPressed()
@@ -88,24 +92,24 @@ void keyPressed()
   {
     keys[3] = true;
   }
-  if(key == 'p' || key == 'P')
+  if (key == 'p' || key == 'P')
   {
-    if(play && !gameOver)
+    if (play && !gameOver)
     {
       paused = !paused;
-      if(paused)
-      {
-        noLoop();
-      }
-      else
-      {
-        loop();
-      }
+      //      if(paused)
+      //      {
+      //        noLoop();
+      //      }
+      //      else
+      //      {
+      //        loop();
+      //      }
     }
   }
-  if(keyCode == ENTER)
+  if (keyCode == ENTER)
   {
-    if(gameOver)
+    if (gameOver)
     {
       play = false;
       score = 0;
@@ -156,23 +160,28 @@ void game()
   text("HEALTH: " + s.life, width-10, height-10);
   rectMode(CORNER);
   //background(255);
-  if (mousePressed && mouseButton == LEFT)
+  if (mousePressed && mouseButton == LEFT && !paused)
   {
     fill(0, 10);
-    rect(0, 0, width, height);
     dark = true;
   }
-  else
+  else if (!mousePressed && !paused)
   {
     fill(255, 10);
-    rect(0, 0, width, height);
     dark = false;
   }
+  if (!paused)
+  {
+    rect(0, 0, width, height);
+  }
+
   s.display();
   s.friction();
   s.move();
+  println(enemyTimer.maxTime);
   if (enemyTimer.go())
   {
+    enemyTimer.duration-=5;
     int random = int(random(3));
     if (random == 0)
     {
@@ -282,8 +291,10 @@ void game()
       }
     }
   }
-  particles.add(new Particle());
-  println(enemies.size());
+  if (!paused)
+  {
+    particles.add(new Particle());
+  }
 
   for (int i = particles.size()-1; i > 0; i --)
   {

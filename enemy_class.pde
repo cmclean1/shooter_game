@@ -44,13 +44,16 @@ class Enemy
   }
   void move()
   {
-    if (!dead)
+    if (!paused)
     {
-      loc.add(vel);
-    }
-    if (dead)
-    {
-      loc.set(-100, -100);
+      if (!dead)
+      {
+        loc.add(vel);
+      }
+      if (dead)
+      {
+        loc.set(-100, -100);
+      }
     }
   }
   boolean checkShooter(Shooter s)

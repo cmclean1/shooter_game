@@ -47,67 +47,73 @@ class Shooter
   }
   void friction()
   {
-    if (vel.x > 0 && keys[3] == false)
+    if (!paused)
     {
-      vel.x-=.02;
-    }
-    else if (vel.x < 0 && keys[2] == false)
-    {
-      vel.x+=.02;
-    }
-    if (vel.y > 0 && keys[1] == false)
-    {
-      vel.y-=.02;
-    }
-    else if (vel.y < 0 && keys[0] == false)
-    {
-      vel.y+=.02;
-    }
-    if (loc.x > width || loc.x < 0)
-    {
-      vel.x*=-.5;
-      if (loc.x > width)
-        loc.x = width;
-      else
-        loc.x = 0;
-    }
-    if (loc.y > height || loc.y < 0)
-    {
-      vel.y*=-.5;
-      if (loc.y > height)
-        loc.y = height;
-      else
-        loc.y = 0;
+      if (vel.x > 0 && keys[3] == false)
+      {
+        vel.x-=.02;
+      }
+      else if (vel.x < 0 && keys[2] == false)
+      {
+        vel.x+=.02;
+      }
+      if (vel.y > 0 && keys[1] == false)
+      {
+        vel.y-=.02;
+      }
+      else if (vel.y < 0 && keys[0] == false)
+      {
+        vel.y+=.02;
+      }
+      if (loc.x > width || loc.x < 0)
+      {
+        vel.x*=-.5;
+        if (loc.x > width)
+          loc.x = width;
+        else
+          loc.x = 0;
+      }
+      if (loc.y > height || loc.y < 0)
+      {
+        vel.y*=-.5;
+        if (loc.y > height)
+          loc.y = height;
+        else
+          loc.y = 0;
+      }
     }
   }
   void move()
   {
-    vel.add(acc);
-    loc.add(vel);
-    if (keys[0] || keys[1] || keys[2] || keys[3])
+    if (!paused)
     {
-      engineP.add(new Engine());
+      vel.add(acc);
+      loc.add(vel);
+      if (keys[0] || keys[1] || keys[2] || keys[3])
+      {
+        engineP.add(new Engine());
 
-      if (keys[0])
-      {
-        acc.y = -.05;
+        if (keys[0])
+        {
+          acc.y = -.05;
+        }
+        else if (keys[1])
+        {
+          acc.y = .05;
+        }
+        else if (keys[2])
+        {
+          acc.x = -.05;
+        }
+        else if (keys[3])
+        {
+          acc.x = .05;
+        }
       }
-      else if (keys[1])
+      else
       {
-        acc.y = .05;
+        acc.set(0, 0);
       }
-      else if (keys[2])
-      {
-        acc.x = -.05;
-      }
-      else if (keys[3])
-      {
-        acc.x = .05;
-      }
-    }
-    else
-    {
-      acc.set(0, 0);
     }
   }
 }

@@ -16,11 +16,14 @@ class enemyBullet
   }
   void move()
   {
-    loc.add(vel);
+    if (!paused)
+    {
+      loc.add(vel);
+    }
   }
   boolean checkParticle(Particle p)
   {
-     if (dist(p.loc.x, p.loc.y, loc.x, loc.y) < (d/2)+(p.d/2))
+    if (dist(p.loc.x, p.loc.y, loc.x, loc.y) < (d/2)+(p.d/2))
     {
       return true;
     }

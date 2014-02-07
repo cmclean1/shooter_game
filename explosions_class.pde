@@ -24,7 +24,10 @@ class Explosion
     for (int i = 0; i < loc.length; i++)
     {
       ellipse(loc[i].x, loc[i].y, d, d);
+      if(!paused)
+      {
       loc[i].add(vel[i]);
+      }
     }
   }
   boolean checkParticle(Particle p)

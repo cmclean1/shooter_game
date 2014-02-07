@@ -16,12 +16,15 @@ class Residue
   {
     for (int i = 0; i < loc.length; i++)
     {
-      loc[i].add(vel[i]);
+      if (!paused)
+      {
+        loc[i].add(vel[i]);
+        life--;
+      }
       colorMode(RGB, 255, 255, 255);
-      fill(255,0,0, life);
+      fill(255, 0, 0, life);
       ellipse(loc[i].x, loc[i].y, d, d);
     }
-    life--;
   }
 }
 

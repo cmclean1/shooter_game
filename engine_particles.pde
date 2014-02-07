@@ -13,9 +13,12 @@ class Engine
   {
     colorMode(HSB, 50, 100, 100, 100);
     fill(abs(sqrt(sq(vel.x/5)+sq(vel.y/5))), 100, 100, life);
-    loc.add(vel);
+    if (!paused)
+    {
+      loc.add(vel);
+      life-=5;
+    }
     ellipse(loc.x, loc.y, 2, 2);
-    life-=5;
   }
 }
 

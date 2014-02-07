@@ -27,8 +27,11 @@ class Star
   }
   void move()
   {
-    vel.add(acc);
-    loc.add(vel);
+    if (!paused)
+    {
+      vel.add(acc);
+      loc.add(vel);
+    }
   }
 }
 

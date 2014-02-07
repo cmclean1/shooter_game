@@ -2,6 +2,9 @@ class Timer
 {
   int duration;
   int maxTime;
+  int pauseTime;
+  int newTime;
+  boolean changeTime = false;
   Timer(int _duration)
   {
     duration = _duration;
@@ -9,11 +12,30 @@ class Timer
   }
   boolean go()
   {
-    if(millis() > maxTime)
+    checkifPaused();
+    if (!paused)
     {
-      maxTime+=duration;
-      return true;
+      if (millis() > maxTime)
+      {
+        maxTime+=duration;
+        return true;
+      }
     }
     return false;
   }
+  void checkifPaused()
+  {
+    if (paused && !changeTime)
+    {
+      pauseTime = millis();
+      changeTime = true;
+    }
+    else if (!paused && changeTime)
+    {
+      newTime = millis()-pauseTime;
+      maxTime+=newTime;
+      changeTime = false;
+    }
+  }
 }
+

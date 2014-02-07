@@ -30,22 +30,25 @@ class Particle
   }
   void move()
   {
-    acc.set(dist(mouseX, 0, loc.x, 0)/1000, dist(0, mouseY, 0, loc.y)/1000);
+    if (!paused)
+    {
+      acc.set(dist(mouseX, 0, loc.x, 0)/1000, dist(0, mouseY, 0, loc.y)/1000);
 
-    if (mousePressed && mouseButton == LEFT)
-    {
-      acc.set(-dist(mouseX, 0, loc.x, 0)/1000, -dist(0, mouseY, 0, loc.y)/1000);
+      if (mousePressed && mouseButton == LEFT)
+      {
+        acc.set(-dist(mouseX, 0, loc.x, 0)/1000, -dist(0, mouseY, 0, loc.y)/1000);
+      }
+      if (mouseX > loc.x)
+      {
+        acc.x*=-1;
+      }
+      if (mouseY > loc.y)
+      {
+        acc.y*=-1;
+      }
+      vel.add(acc);
+      loc.add(vel);
     }
-    if (mouseX > loc.x)
-    {
-      acc.x*=-1;
-    }
-    if (mouseY > loc.y)
-    {
-      acc.y*=-1;
-    }
-    vel.add(acc);
-    loc.add(vel);
   }
 }
 
