@@ -74,7 +74,6 @@ class blasterEnemy extends Enemy
 
   Timer bulletTimer;
   int bulletnum = 5;
-  ArrayList<enemyBullet> bullets = new ArrayList<enemyBullet>();
   float bulletSpeed = random(2);
   float bulletD = random(3, 6);
   blasterEnemy()
@@ -106,7 +105,6 @@ class blasterEnemy extends Enemy
 class shooterEnemy extends Enemy
 {
   Timer bulletTimer;
-  ArrayList<enemyBullet> bullets = new ArrayList<enemyBullet>();
   float bulletX;
   float bulletY;
   float bulletD = random(3, 6);

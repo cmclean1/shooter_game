@@ -4,6 +4,7 @@ ArrayList<blasterEnemy> blaster;
 ArrayList<shooterEnemy> shooter;
 ArrayList<Explosion> explosions = new ArrayList<Explosion>();
 ArrayList<Particle> particles;
+ArrayList<enemyBullet> bullets = new ArrayList<enemyBullet>();
 boolean[] keys = new boolean[4];
 int timer;
 Timer enemyTimer;
@@ -241,18 +242,18 @@ void game()
     }
     if (e instanceof  shooterEnemy)
     {
-      for (int j = ((shooterEnemy)e).bullets.size()-1; j > 0; j--)
+      for (int j = bullets.size()-1; j > 0; j--)
       {
         for (int w = particles.size()-1; w > 0; w--)
         {
-          if (((shooterEnemy)e).bullets.get(j).checkParticle(particles.get(w)))
+          if (bullets.get(j).checkParticle(particles.get(w)))
           {
-            ((shooterEnemy)e).bullets.remove(j);
+            bullets.remove(j);
             particles.remove(w);
             return;
           }
         }
-        if (s.checkParticle(((shooterEnemy)e).bullets.get(j)))
+        if (s.checkParticle((bullets.get(j))))
         {
           background(255, 0, 0);
           s.life--;
@@ -267,30 +268,30 @@ void game()
             gameOver = true;
             dark = true;
           }
-          ((shooterEnemy)e).bullets.remove(j);
+          bullets.remove(j);
           return;
         }
-        if (((shooterEnemy)e).bullets.get(j).loc.x > width || ((shooterEnemy)e).bullets.get(j).loc.x < 0 || ((shooterEnemy)e).bullets.get(j).loc.y > height || ((shooterEnemy)e).bullets.get(j).loc.y < 0)
+        if (bullets.get(j).loc.x > width || bullets.get(j).loc.x < 0 || bullets.get(j).loc.y > height || bullets.get(j).loc.y < 0)
         {
-          ((shooterEnemy)e).bullets.remove(j);
+          bullets.remove(j);
           return;
         }
       }
     }
     if (e instanceof  blasterEnemy)
     {
-      for (int j = ((blasterEnemy)e).bullets.size()-1; j > 0; j--)
+      for (int j = bullets.size()-1; j > 0; j--)
       {
         for (int w = particles.size()-1; w > 0; w--)
         {
-          if (((blasterEnemy)e).bullets.get(j).checkParticle(particles.get(w)))
+          if (bullets.get(j).checkParticle(particles.get(w)))
           {
-            ((blasterEnemy)e).bullets.remove(j);
+            bullets.remove(j);
             particles.remove(w);
             return;
           }
         }
-        if (s.checkParticle(((blasterEnemy)e).bullets.get(j)))
+        if (s.checkParticle(bullets.get(j)))
         {
           background(255, 0, 0);
           s.life--;
@@ -304,12 +305,12 @@ void game()
             gameOver = true;
             dark = true;
           }
-          ((blasterEnemy)e).bullets.remove(j);
+          bullets.remove(j);
           return;
         }
-        if (((blasterEnemy)e).bullets.get(j).loc.x > width || ((blasterEnemy)e).bullets.get(j).loc.x < 0 || ((blasterEnemy)e).bullets.get(j).loc.y > height || ((blasterEnemy)e).bullets.get(j).loc.y < 0)
+        if (bullets.get(j).loc.x > width || bullets.get(j).loc.x < 0 || bullets.get(j).loc.y > height || bullets.get(j).loc.y < 0)
         {
-          ((blasterEnemy)e).bullets.remove(j);
+          bullets.remove(j);
           return;
         }
       }

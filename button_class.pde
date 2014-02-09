@@ -37,6 +37,7 @@ class Button {
         play = true;
         s = new Shooter();
         blaster = new ArrayList<blasterEnemy>();
+        bullets = new ArrayList<enemyBullet>();
         shooter = new ArrayList<shooterEnemy>();
         enemies = new ArrayList<Enemy>();
         particles = new ArrayList<Particle>();
