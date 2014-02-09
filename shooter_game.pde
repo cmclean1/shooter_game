@@ -2,11 +2,12 @@ Shooter s;
 ArrayList<Enemy> enemies;
 ArrayList<blasterEnemy> blaster;
 ArrayList<shooterEnemy> shooter;
-PVector shakeScreen;
+ArrayList<Explosion> explosions = new ArrayList<Explosion>();
 ArrayList<Particle> particles;
 boolean[] keys = new boolean[4];
 int timer;
 Timer enemyTimer;
+Timer shakeTimer;
 boolean dark = true;
 int location = 0;
 PFont font;
@@ -21,22 +22,29 @@ boolean paused;
 boolean gameOver;
 int multiplier = 1;
 int enemiesKilled;
+boolean shakeScreen;
 void setup()
 {
   size(800, 700);
-  shakeScreen = new PVector(0, 0);
-
   font = loadFont("VirtualDJ-48.vlw");
   textFont(font);
   Play = new Button(width/2, "PLAY", 1, true);
   Intructions = new Button(width/2+75, "DEBRIEF", 2, false);
   Credits = new Button(width/2+150, "CREDITS", 3, false);
   Back = new Button(width/2+200, "BACK", 0, false);
-
+  shakeTimer = new Timer(500);
   stars.add(new Star());
 }
 void draw()
 {    
+  if (shakeScreen && !paused)
+  {
+    translate(random(-10, 10), random(-10, 10));
+    if (shakeTimer.go())
+    {
+      shakeScreen = false;
+    }
+  }
   if (!paused)
   {
     stars.add(new Star());
@@ -146,6 +154,7 @@ void keyReleased()
 }
 void game()
 {
+  checkMultiplier();
   colorMode(RGB, 255, 255, 255);
   if (dark)
   {
@@ -216,6 +225,8 @@ void game()
     {
       background(255, 0, 0);
       s.life--;
+      shakeTimer.maxTime = millis() + shakeTimer.duration;
+      shakeScreen = true;
       enemiesKilled = 0;
       if (s.life <= 0)
       {
@@ -245,6 +256,10 @@ void game()
         {
           background(255, 0, 0);
           s.life--;
+          shakeTimer.maxTime = millis() + shakeTimer.duration;
+
+          shakeScreen = true;
+
           enemiesKilled = 0;
           if (s.life <= 0)
           {
@@ -279,6 +294,9 @@ void game()
         {
           background(255, 0, 0);
           s.life--;
+          shakeTimer.maxTime = millis() + shakeTimer.duration;
+
+          shakeScreen = true;
           enemiesKilled = 0;
           if (s.life <= 0)
           {
@@ -312,7 +330,11 @@ void game()
       particles.remove(i);
     }
   }
-
+  for (int i = explosions.size()-1; i > 0; i --)
+  {
+    Explosion e = explosions.get(i);
+    e.display();
+  }
   for (int i = particles.size()-1; i > 0; i --)
   {
     if (particles.get(i).dead && particles.get(i).r.life <= 0)
@@ -330,10 +352,10 @@ void game()
         enemies.get(j).life--;
         if (enemies.get(j).life <= 0)
         {
-          enemies.get(j).e = new Explosion(enemies.get(j).loc.x, enemies.get(j).loc.y);
-          enemies.get(j).dead = true;
+          explosions.add(new Explosion(enemies.get(j).loc.x, enemies.get(j).loc.y));
           enemiesKilled++;
           score+=enemies.get(j).scoreUp*multiplier;
+          enemies.remove(j);
         }
         return;
       }
@@ -387,6 +409,25 @@ void mousePressed()
   if (location == 2 || location == 3)
   {
     Back.ifClicked();
+  }
+}
+void checkMultiplier()
+{
+  if (enemiesKilled < 10)
+  {
+    multiplier = 1;
+  }
+  if (enemiesKilled >= 10)
+  {
+    multiplier = 2;
+  }
+  if (enemiesKilled >= 25)
+  {
+    multiplier = 4;
+  }
+  if (enemiesKilled >= 40)
+  {
+    multiplier = 8;
   }
 }
 

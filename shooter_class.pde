@@ -23,7 +23,6 @@ class Shooter
   }
   void display()
   {
-    loc.add(shakeScreen);
 
     for (int i = engineP.size()-1; i > 0; i --)
     {

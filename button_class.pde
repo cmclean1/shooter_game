@@ -40,10 +40,11 @@ class Button {
         shooter = new ArrayList<shooterEnemy>();
         enemies = new ArrayList<Enemy>();
         particles = new ArrayList<Particle>();
+        explosions = new ArrayList<Explosion>();
+        explosions.add(new Explosion(0, 0));
         enemyTimer = new Timer(5000);
         particles.add(new Particle());
         enemies.add(new Enemy());
-        blaster.add(new blasterEnemy());
       }
     }
   }
