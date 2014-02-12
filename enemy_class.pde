@@ -16,11 +16,14 @@ class Enemy
     w = random(25, 50);
     d = sqrt(2)*w;
     d*=1.1;
-    loc = new PVector(random(d, width-d), -d/2);
+    loc = new PVector(random(d, width-d), -50);
     scoreUp = life*10+(int(w)*10);
   }
+  
   void display()
   {
+    d = sqrt(2)*w;
+    d*=1.1;
     colorMode(RGB, 255, 255, 255, 100);
     if (!dead)
     {

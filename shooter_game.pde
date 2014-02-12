@@ -1,4 +1,5 @@
 Shooter s;
+Boss b;
 ArrayList<Enemy> enemies;
 ArrayList<blasterEnemy> blaster;
 ArrayList<shooterEnemy> shooter;
@@ -35,6 +36,7 @@ void setup()
   Back = new Button(width/2+200, "BACK", 0, false);
   shakeTimer = new Timer(500);
   stars.add(new Star());
+  b = new Boss(5);
 }
 void draw()
 {    
@@ -192,23 +194,24 @@ void game()
   s.friction();
   s.move();
   println(enemies.size());
-  if (enemyTimer.go())
-  {
-    enemyTimer.duration-=5;
-    int random = int(random(3));
-    if (random == 0)
-    {
-      enemies.add(new blasterEnemy());
-    }
-    else if (random == 1)
-    {
-      enemies.add(new Enemy());
-    }
-    else
-    {
-      enemies.add(new shooterEnemy());
-    }
-  }
+  //  if (enemyTimer.go())
+  //  {
+  //    enemyTimer.duration-=5;
+  //    int random = int(random(3));
+  //    if (random == 0)
+  //    {
+  //      enemies.add(new blasterEnemy());
+  //    }
+  //    else if (random == 1)
+  //    {
+  //      enemies.add(new Enemy());
+  //    }
+  //    else
+  //    {
+  //      enemies.add(new shooterEnemy());
+  //    }
+  //  }
+  b.display();
   for (int i = enemies.size()-1; i > 0; i --) {
     Enemy e = enemies.get(i);
     e.display();
