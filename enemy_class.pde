@@ -25,6 +25,7 @@ class Enemy
     vel.y = .1;
     loc = new PVector(x, y);
     w = 50;
+    life = 100;
   }
   void display()
   {
