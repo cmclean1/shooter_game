@@ -6,6 +6,7 @@ class Enemy
   float d;
   boolean hit;
   int life = int(random(50, 201));
+  int maxLife = life;
   Explosion e;
   boolean dead;
   int deadLife = 20;
@@ -17,13 +18,19 @@ class Enemy
     d = sqrt(2)*w;
     d*=1.1;
     loc = new PVector(random(d, width-d), -50);
-    scoreUp = life*10+(int(w)*10);
+    scoreUp = maxLife*10+(int(w)*10);
   }
-  
+  void bossSet(float x, float y)
+  {
+    vel.y = .1;
+    loc = new PVector(x, y);
+    w = 50;
+  }
   void display()
   {
     d = sqrt(2)*w;
     d*=1.1;
+    scoreUp = maxLife*10+(int(w)*10);
     colorMode(RGB, 255, 255, 255, 100);
     if (!dead)
     {
@@ -83,7 +90,12 @@ class blasterEnemy extends Enemy
   {
     bulletnum = int(random(5, 13));
     bulletTimer = new Timer(int(random(1000, 2000)));
-    scoreUp = life*10+(int(w)*10)+(bulletnum*100)+(int(bulletSpeed*100))+int(bulletD*10);
+    scoreUp = maxLife*10+(int(w)*10)+(bulletnum*100)+(int(bulletSpeed*100))+int(bulletD*10);
+    vel = new PVector(0, random(.2, .8));
+    w = random(25, 50);
+    d = sqrt(2)*w;
+    d*=1.1;
+    loc = new PVector(random(d, width-d), -50);
   }
   void shoot()
   {
@@ -114,7 +126,12 @@ class shooterEnemy extends Enemy
   shooterEnemy()
   {
     bulletTimer = new Timer(int(random(500, 2000)));
-    scoreUp = life*10+(int(w)*10)+int(bulletD*10)+int((3000-bulletTimer.duration));
+    scoreUp = maxLife*10+(int(w)*10)+int(bulletD*10)+int((3000-bulletTimer.duration));
+    vel = new PVector(0, random(.2, .8));
+    w = random(25, 50);
+    d = sqrt(2)*w;
+    d*=1.1;
+    loc = new PVector(random(d, width-d), -50);
   }
   void aim(Shooter s)
   {

@@ -42,6 +42,8 @@ class Button {
         enemies = new ArrayList<Enemy>();
         particles = new ArrayList<Particle>();
         explosions = new ArrayList<Explosion>();
+        b = new Boss(5);
+
         explosions.add(new Explosion(0, 0));
         enemyTimer = new Timer(5000);
         particles.add(new Particle());

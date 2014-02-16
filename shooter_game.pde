@@ -36,7 +36,6 @@ void setup()
   Back = new Button(width/2+200, "BACK", 0, false);
   shakeTimer = new Timer(500);
   stars.add(new Star());
-  b = new Boss(5);
 }
 void draw()
 {    
@@ -130,11 +129,6 @@ void keyPressed()
       loop();
     }
   }
-  //  if(key == ' ')
-  //  {
-  //    shakeScreen = PVector.random2D();
-  //    shakeScreen.set(-shakeScreen.x,-shakeScreen.y);
-  //  }
 }
 void keyReleased()
 {
@@ -193,7 +187,6 @@ void game()
   s.display();
   s.friction();
   s.move();
-  println(enemies.size());
   //  if (enemyTimer.go())
   //  {
   //    enemyTimer.duration-=5;
