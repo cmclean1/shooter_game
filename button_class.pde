@@ -42,7 +42,7 @@ class Button {
         enemies = new ArrayList<Enemy>();
         particles = new ArrayList<Particle>();
         explosions = new ArrayList<Explosion>();
-        b = new Boss(3);
+        b = new Boss(5);
 
         enemyTimer = new Timer(5000);
       }

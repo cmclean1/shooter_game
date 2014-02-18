@@ -6,8 +6,8 @@ class Boss
   Boss(int size)
   {
     middle = ((size-1)/2);
-    max = middle-1;
-    for (int i = 0; i < size+1; i++)
+    max = middle;
+    for (int i = 0; i < size; i++)
     {
       int random = int(random(3));
       if (random == 0)
@@ -22,20 +22,22 @@ class Boss
       {
         bossenemies.add(new shooterEnemy());
       }
-      bossenemies.get(i).bossSet((i/float(size))*width+50, -50);
+      bossenemies.get(i).bossSet((i/float(size))*width+25, -50);
     }
-    for (int i = 0; i < max; i++)
+    for (int i = 1; i < max; i++)
     {
       bossenemies.get(middle-i).life = bossenemies.get(middle-i).life + bossenemies.get(middle-i-1).life;
       bossenemies.get(middle+i).life = bossenemies.get(middle+i).life + bossenemies.get(middle+i+1).life;
     }
     //    bossenemies.get(2).life = bossenemies.get(2).life + bossenemies.get(1).life;
     //    bossenemies.get(4).life = bossenemies.get(4).life + bossenemies.get(5).life;
-    bossenemies.get(middle).life = bossenemies.get(middle-1).life + bossenemies.get(middle+1).life;// + bossenemies.get(middle).life;
+    bossenemies.get(middle).life = bossenemies.get(middle-1).life + bossenemies.get(middle+1).life + bossenemies.get(middle).life;
   }
   void display()
   {
-    println(bossenemies.get(1).life);
+    println(bossenemies.get(2).life);
+       // println(middle);
+
     if (bossenemies.get(middle).dead == true)
     {
       for (int j = 0; j < middle; j++)
