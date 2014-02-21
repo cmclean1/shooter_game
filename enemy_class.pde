@@ -20,10 +20,10 @@ class Enemy
     loc = new PVector(random(d, width-d), -50);
     scoreUp = maxLife*10+(int(w)*10);
   }
-  void bossSet(float x, float y)
+  void bossSet(int wut, PVector[] locs)
   {
     vel.y = .1;
-    loc = new PVector(x, y);
+    loc = new PVector(locs[wut].x, locs[wut].y);
     w = 50;
     life = 100;
   }

@@ -22,7 +22,7 @@ class Boss
       {
         bossenemies.add(new shooterEnemy());
       }
-      bossenemies.get(i).bossSet((i/float(size))*width+25, -50);
+      bossenemies.get(i).bossSet(i, yish);
     }
     for (int i = 1; i < max; i++)
     {
@@ -35,12 +35,12 @@ class Boss
   }
   void display()
   {
-    println(bossenemies.get(2).life);
+    println(bossenemies.get(3).life);
        // println(middle);
 
     if (bossenemies.get(middle).dead == true)
     {
-      for (int j = 0; j < middle; j++)
+      for (int j = 1; j < middle+1; j++)
       {
         if (bossenemies.get(middle-j).dead == false)
         {
@@ -62,7 +62,7 @@ class Boss
     {
       if (bossenemies.get(middle-k).dead == true)
       {
-        for (int j = middle-k; j > 0; j--)
+        for (int j = middle-k; j >= 0; j--)
         {
           if (bossenemies.get(j).dead == false)
           {
@@ -143,6 +143,7 @@ class Boss
               for (int k = j; k >= middle; k--)
               {
                 bossenemies.get(k).life--;
+
               }
             }
           }

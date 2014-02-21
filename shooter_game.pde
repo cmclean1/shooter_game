@@ -25,9 +25,13 @@ boolean gameOver;
 int multiplier = 1;
 int enemiesKilled;
 boolean shakeScreen;
+PVector[] yish = { 
+  new PVector(50, -50), new PVector(90, -75), new PVector(130, -100), new PVector(170, -75), new PVector(210, -50),
+};
 void setup()
 {
   size(800, 700);
+
   font = loadFont("VirtualDJ-48.vlw");
   textFont(font);
   Play = new Button(width/2, "PLAY", 1, true);
