@@ -40,10 +40,10 @@ class Button {
         bullets = new ArrayList<enemyBullet>();
         shooter = new ArrayList<shooterEnemy>();
         enemies = new ArrayList<Enemy>();
+        bosses = new ArrayList<Boss>();
         particles = new ArrayList<Particle>();
         explosions = new ArrayList<Explosion>();
-        b = new Boss(5);
-
+        bossTimer = new Timer(15000);
         enemyTimer = new Timer(5000);
       }
     }

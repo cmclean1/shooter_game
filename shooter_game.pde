@@ -1,15 +1,16 @@
 Shooter s;
-Boss b;
 ArrayList<Enemy> enemies;
 ArrayList<blasterEnemy> blaster;
 ArrayList<shooterEnemy> shooter;
 ArrayList<Explosion> explosions = new ArrayList<Explosion>();
 ArrayList<Particle> particles;
 ArrayList<enemyBullet> bullets = new ArrayList<enemyBullet>();
+ArrayList<Boss> bosses;
 boolean[] keys = new boolean[4];
 int timer;
 Timer enemyTimer;
 Timer shakeTimer;
+Timer bossTimer;
 boolean dark = true;
 int location = 0;
 PFont font;
@@ -191,24 +192,32 @@ void game()
   s.display();
   s.friction();
   s.move();
-  //  if (enemyTimer.go())
-  //  {
-  //    enemyTimer.duration-=5;
-  //    int random = int(random(3));
-  //    if (random == 0)
-  //    {
-  //      enemies.add(new blasterEnemy());
-  //    }
-  //    else if (random == 1)
-  //    {
-  //      enemies.add(new Enemy());
-  //    }
-  //    else
-  //    {
-  //      enemies.add(new shooterEnemy());
-  //    }
-  //  }
-  b.display();
+  if (enemyTimer.go())
+  {
+    enemyTimer.duration-=5;
+    int random = int(random(3));
+    if (random == 0)
+    {
+      enemies.add(new blasterEnemy());
+    }
+    else if (random == 1)
+    {
+      enemies.add(new Enemy());
+    }
+    else
+    {
+      enemies.add(new shooterEnemy());
+    }
+  }
+  if (bossTimer.go())
+  {
+    bosses.add(new Boss(5));
+  }
+  for (int i = bosses.size()-1; i >= 0; i--)
+  {
+    Boss b = bosses.get(i);
+    b.display();
+  }
   for (int i = enemies.size()-1; i >= 0; i --) {
     Enemy e = enemies.get(i);
     e.display();
@@ -242,7 +251,7 @@ void game()
     }
   }
   for (int j = bullets.size()-1; j >= 0; j--)
-  {
+  { 
     for (int w = particles.size()-1; w >= 0; w--)
     {
       if (bullets.get(j).checkParticle(particles.get(w)))
@@ -266,9 +275,9 @@ void game()
         dark = true;
       }
       bullets.remove(j);
-      return;
+      //return;
     }
-    if (bullets.get(j).loc.x > width || bullets.get(j).loc.x < 0 || bullets.get(j).loc.y > height || bullets.get(j).loc.y < 0)
+    else if (bullets.get(j).loc.x > width || bullets.get(j).loc.x < 0 || bullets.get(j).loc.y > height || bullets.get(j).loc.y < 0)
     {
       bullets.remove(j);
       //return;
@@ -288,15 +297,8 @@ void game()
     Particle p = particles.get(i);
     p.display();
     p.move();
-    if (p.loc.x > width || p.loc.x < 0 || p.loc.y > height || p.loc.y < 0)
-    {
-      particles.remove(i);
-    }
-    if (p.dead && p.r.life <= 0)
-    {
-      particles.remove(i);
-    }
-    for (int j = enemies.size()-1; j > 0; j --)
+
+    for (int j = enemies.size()-1; j >= 0; j --)
     {
       if (enemies.get(j).checkParticle(particles.get(i)) && !enemies.get(j).dead)
       {
@@ -311,12 +313,21 @@ void game()
           score+=enemies.get(j).scoreUp*multiplier;
           enemies.remove(j);
         }
-        //return;
       }
       else
       {
         enemies.get(j).hit = false;
       }
+    }
+    if (p.loc.x > width || p.loc.x < 0 || p.loc.y > height || p.loc.y < 0)
+    {
+      particles.remove(i);
+      //return;
+    }
+    else if (p.dead && p.r.life <= 0)
+    {
+      particles.remove(i);
+      //return;
     }
   }
 }
