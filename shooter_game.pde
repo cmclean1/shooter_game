@@ -26,8 +26,9 @@ boolean gameOver;
 int multiplier = 1;
 int enemiesKilled;
 boolean shakeScreen;
+float distance = random(0, 500);
 PVector[] yish = { 
-  new PVector(50, -50), new PVector(90, -75), new PVector(130, -100), new PVector(170, -75), new PVector(210, -50),
+  new PVector(50+distance, -50), new PVector(90+distance, -75), new PVector(130+distance, -100), new PVector(170+distance, -75), new PVector(210+distance, -50),
 };
 void setup()
 {
@@ -212,6 +213,12 @@ void game()
   if (bossTimer.go())
   {
     bosses.add(new Boss(5));
+    distance = random(0, 500);
+    yish[0] = new PVector(50+distance, -50);
+    yish[1] = new PVector(90+distance, -75);
+    yish[2] = new PVector(130+distance, -100);
+    yish[3] = new PVector(170+distance, -75);
+    yish[4] = new PVector(210+distance, -50);
   }
   for (int i = bosses.size()-1; i >= 0; i--)
   {
