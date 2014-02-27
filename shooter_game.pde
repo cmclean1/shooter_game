@@ -115,14 +115,6 @@ void keyPressed()
     if (play && !gameOver)
     {
       paused = !paused;
-      //      if(paused)
-      //      {
-      //        noLoop();
-      //      }
-      //      else
-      //      {
-      //        loop();
-      //      }
     }
   }
   if (keyCode == ENTER)
@@ -196,7 +188,7 @@ void game()
   if (enemyTimer.go())
   {
     enemyTimer.duration-=5;
-    int random = int(random(3));
+    int random = int(random(4));
     if (random == 0)
     {
       enemies.add(new blasterEnemy());
@@ -205,9 +197,13 @@ void game()
     {
       enemies.add(new Enemy());
     }
-    else
+    else if (random == 2)
     {
       enemies.add(new shooterEnemy());
+    }
+    else
+    {
+      enemies.add(new rotaterEnemy());
     }
   }
   if (bossTimer.go())
@@ -237,6 +233,10 @@ void game()
     {
       ((shooterEnemy)e).aim(s);
       ((shooterEnemy)e).shoot();
+    }
+    if (e instanceof rotaterEnemy)
+    {
+      ((rotaterEnemy)e).shoot();
     }
     if (e.checkShooter(s))
     {

@@ -170,4 +170,41 @@ class shooterEnemy extends Enemy
     }
   }
 }
+class rotaterEnemy extends Enemy
+{
+  Timer bulletTimer;
+  float bulletX;
+  float bulletY;
+  float bulletD = random(3, 6);
+  int degree;
+  float bulletSpeed = random(1,5);
+  rotaterEnemy()
+  {
+    bulletTimer = new Timer(int(random(200, 500)));
+    scoreUp = maxLife*10+(int(w)*10)+int(bulletD*10)+int((3000-bulletTimer.duration));
+    vel = new PVector(0, random(.2, .8));
+    w = random(25, 50);
+    d = sqrt(2)*w;
+    d*=1.1;
+    loc = new PVector(random(d, width-d), -50);
+  }
+  void shoot()
+  {
+    bulletX = bulletSpeed*sin(degrees(degree));
+    bulletY = bulletSpeed*cos(degrees(degree));
+    if (!dead)
+    {
+      if (bulletTimer.go())
+      {
+        degree++;
+        bullets.add(new enemyBullet(loc.x, loc.y, bulletX, bulletY, bulletD));
+      }
+    }
+    for (int i = bullets.size()-1; i > 0; i--) {
+      enemyBullet b = bullets.get(i);
+      b.move();
+      b.display();
+    }
+  }
+}
 

@@ -9,7 +9,7 @@ class Boss
     max = middle;
     for (int i = 0; i < size; i++)
     {
-      int random = int(random(3));
+      int random = int(random(4));
       if (random == 0)
       {
         bossenemies.add(new blasterEnemy());
@@ -18,9 +18,13 @@ class Boss
       {
         bossenemies.add(new Enemy());
       }
-      else
+      else if (random == 2)
       {
         bossenemies.add(new shooterEnemy());
+      }
+      else
+      {
+        bossenemies.add(new rotaterEnemy());
       }
       bossenemies.get(i).bossSet(i, yish);
     }
@@ -36,7 +40,7 @@ class Boss
   void display()
   {
     println(bossenemies.get(3).life);
-       // println(middle);
+    // println(middle);
 
     if (bossenemies.get(middle).dead == true)
     {
@@ -143,7 +147,6 @@ class Boss
               for (int k = j; k >= middle; k--)
               {
                 bossenemies.get(k).life--;
-
               }
             }
           }
