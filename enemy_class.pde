@@ -5,7 +5,7 @@ class Enemy
   float w;
   float d;
   boolean hit;
-  int life = int(random(50, 201));
+  int life = int(random(50, 151));
   int maxLife = life;
   Explosion e;
   boolean dead;

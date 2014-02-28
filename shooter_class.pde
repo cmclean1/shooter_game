@@ -20,10 +20,20 @@ class Shooter
       return true;
     }
     return false;
+  } 
+  boolean checkParticle(Explosion e)
+  {
+    for (int i = 0; i < e.loc.length; i++)
+    {
+      if (dist(e.loc[i].x, e.loc[i].y, loc.x, loc.y) < (d/2)+(e.d/2))
+      {
+        return true;
+      }
+    }
+    return false;
   }
   void display()
   {
-
     for (int i = engineP.size()-1; i > 0; i --)
     {
       Engine p = engineP.get(i);

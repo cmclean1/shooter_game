@@ -298,6 +298,21 @@ void game()
   {
     Explosion e = explosions.get(i);
     e.display();
+    if (s.checkParticle(bullets.get(i)))
+    {
+      background(255, 0, 0);
+      s.life--;
+      shakeTimer.maxTime = millis() + shakeTimer.duration;
+      shakeScreen = true;
+      enemiesKilled = 0;
+      if (s.life <= 0)
+      {
+        location = 0;
+        gameOver = true;
+        dark = true;
+      }
+      explosions.remove(i);
+    }
   }
   for (int i = particles.size()-1; i >= 0; i --)
   { 
