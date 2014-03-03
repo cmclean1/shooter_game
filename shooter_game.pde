@@ -298,7 +298,7 @@ void game()
   {
     Explosion e = explosions.get(i);
     e.display();
-    if (s.checkParticle(bullets.get(i)))
+    if (s.checkParticle(e))
     {
       background(255, 0, 0);
       s.life--;
