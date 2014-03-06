@@ -19,7 +19,7 @@ class Residue
       if (!paused)
       {
         loc[i].add(vel[i]);
-        life--;
+        life-=.5;
       }
       colorMode(RGB, 255, 255, 255);
       fill(255, 0, 0, life);
